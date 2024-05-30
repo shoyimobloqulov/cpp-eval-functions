@@ -37,6 +37,10 @@ double applyOp(double a, double b, char op) {
     return 0;
 }
 
+double applyPow(double base, double exponent) {
+    return std::pow(base, exponent);
+}
+
 // Funksiyalar uchun
 double applyFunction(const std::string& func, double value) {
     if(func == "sin") return std::sin(value);
@@ -196,7 +200,44 @@ double evaluate(const std::string& tokens, double x) {
             }
             i--;
 
-            functions.push(func);
+            if(func == "pow") {
+                // pow funksiyasi uchun alohida ishlov
+                if (tokens[i + 1] != '(') throw std::runtime_error("Expected '(' after 'pow'");
+                int j = i + 2; // '(' dan keyingi indeksga o'tish
+                std::stack<char> parentheses;
+                parentheses.push('(');
+                std::string baseExpr, exponentExpr;
+                bool commaFound = false;
+
+                while (!parentheses.empty() && j < tokens.length()) {
+                    if (tokens[j] == '(') {
+                        parentheses.push('(');
+                    } else if (tokens[j] == ')') {
+                        parentheses.pop();
+                    } else if (tokens[j] == ',' && parentheses.size() == 1) {
+                        commaFound = true;
+                        j++;
+                        continue;
+                    }
+                    
+                    if (!commaFound) {
+                        baseExpr += tokens[j];
+                    } else {
+                        exponentExpr += tokens[j];
+                    }
+
+                    j++;
+                }
+
+                if (!parentheses.empty()) throw std::runtime_error("Mismatched parentheses in pow function");
+
+                double base = evaluate(baseExpr, x);
+                double exponent = evaluate(exponentExpr, x);
+                values.push(applyPow(base, exponent));
+                i = j - 1;
+            } else {
+                functions.push(func);
+            }
         } 
         else {
             while(!ops.empty() && precedence(ops.top()) >= precedence(tokens[i])) {
