@@ -6,6 +6,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -51,7 +52,6 @@ double applyFunction(const std::string& func, double value) {
     if(func == "sqrt") return std::sqrt(value);
     throw std::runtime_error("Funksiya topilmadi: " + func);
 }
-
 
 // Odiy Qiymatlar uchun
 double evaluate(const std::string& tokens) {
@@ -263,12 +263,32 @@ double evaluate(const std::string& tokens, double x) {
 }
 
 int main() {
-    std::string expression = "sqrt(1+pow(cos(x),2))";
-    double x = 2.0;
+    string s;
+
+    cin >> s;
+
+    double a,b,n;
+    cin >> a >> b >> n;
+
+    double mod = abs(b - a) / n;
+
+    // [a,b]
+    vector<double>array;
 
     try {
-        double result = evaluate(expression, x);
-        std::cout << "Funksiyanal ko'rinishi: " << expression << ", Result: " << result << std::endl;
+        for (double i = a; i <= b; i+=mod)
+        {
+            double x = evaluate(s,i);
+            array.push_back(x);
+        }
+
+        cout << "Qiymatlar: ";
+        for (int i = array.size() - 1; i >= 0; i--)
+        {
+            cout << array[i] << " ";
+        }
+        
+        
     } catch (const std::runtime_error& e) {
         std::cerr << "OOPS )), Xatolik: " << e.what() << std::endl;
     }
