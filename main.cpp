@@ -42,7 +42,10 @@ double applyFunction(const std::string& func, double value) {
     if(func == "sin") return std::sin(value);
     if(func == "cos") return std::cos(value);
     if(func == "log") return std::log(value);
-    throw std::runtime_error("Mavjud bo'lmagan funksiya: " + func);
+    if(func == "tg") return std::tan(value);
+    if(func == "ln") return std::log(value);
+    if(func == "sqrt") return std::sqrt(value);
+    throw std::runtime_error("Funksiya topilmadi: " + func);
 }
 
 
@@ -219,9 +222,8 @@ double evaluate(const std::string& tokens, double x) {
     return values.top();
 }
 
-
 int main() {
-    std::string expression = "3 + 5 * x - ( 4 / 2 ) + sin(3.14 / 2)";
+    std::string expression = "sqrt(1+pow(cos(x),2))";
     double x = 2.0;
 
     try {
