@@ -201,9 +201,8 @@ double evaluate(const std::string& tokens, double x) {
             i--;
 
             if(func == "pow") {
-                // pow funksiyasi uchun alohida ishlov
-                if (tokens[i + 1] != '(') throw std::runtime_error("Expected '(' after 'pow'");
-                int j = i + 2; // '(' dan keyingi indeksga o'tish
+                if (tokens[i + 1] != '(') throw std::runtime_error("POW dan foydalanishdagi xatolik.");
+                int j = i + 2; 
                 std::stack<char> parentheses;
                 parentheses.push('(');
                 std::string baseExpr, exponentExpr;
