@@ -287,8 +287,6 @@ int main() {
         {
             cout << array[i] << " ";
         }
-        
-        
     } catch (const std::runtime_error& e) {
         std::cerr << "OOPS )), Xatolik: " << e.what() << std::endl;
     }
